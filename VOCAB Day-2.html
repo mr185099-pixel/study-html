@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>শব্দভাণ্ডার MCQ পরীক্ষা</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #101826;
+    background-image: radial-gradient(circle at 20% 0%, #182338 0%, #101826 55%);
+    font-family: 'Noto Sans Bengali', 'Space Grotesk', sans-serif;
+    color: #EDEFF4;
+    min-height: 100vh;
+    padding: 28px 16px 48px;
+  }
+  .center-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .quiz-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; max-width: 560px; margin: 0 auto; }
+  .card {
+    width: 100%; max-width: 560px;
+    background: #FBF8F1; color: #1B2436;
+    border-radius: 14px; padding: 26px 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    border: 1px solid #E4DCC6;
+  }
+  .eyebrow { display: flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: 1.5px; color: #B98B2A; font-weight: 700; margin-bottom: 10px; }
+  h1.title, h2.title { font-family: 'Noto Serif Bengali', serif; font-size: 24px; margin-bottom: 8px; color: #1B2436; }
+  .subtitle { font-size: 14px; line-height: 1.6; color: #5B6577; margin-bottom: 18px; }
+  label.field-label { font-size: 12px; font-weight: 600; color: #5B6577; margin-bottom: 6px; display: block; }
+  input[type=text] {
+    width: 100%; padding: 12px 14px; border-radius: 10px;
+    border: 1.5px solid #DDD3B8; background: #FFFDF8; font-size: 15px;
+    margin-bottom: 18px; font-family: inherit; outline: none; color: #1B2436;
+  }
+  .btn-primary {
+    width: 100%; padding: 13px 18px; border-radius: 10px; border: none;
+    background: #1B2A4A; color: #F7F0DA; font-weight: 700; font-size: 15px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn-secondary {
+    padding: 13px 18px; border-radius: 10px; border: 1.5px solid #1B2A4A;
+    background: transparent; color: #1B2A4A; font-weight: 700; font-size: 15px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .history-header { font-size: 12px; font-weight: 700; color: #5B6577; margin: 14px 0 10px; border-top: 1px solid #E4DCC6; padding-top: 14px; }
+  .history-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 6px 0; }
+  .top-bar { width: 100%; display: flex; align-items: center; gap: 14px; max-width: 560px; }
+  .progress-wrap { flex: 1; }
+  .progress-label { font-size: 12px; color: #9AA7BE; margin-bottom: 6px; font-weight: 600; }
+  .progress-track { height: 6px; border-radius: 4px; background: #22304A; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #B98B2A, #E0B84C); border-radius: 4px; transition: width 0.3s ease; }
+  .timer-badge { display: flex; align-items: center; gap: 6px; background: #22304A; padding: 8px 14px; border-radius: 20px; font-weight: 700; font-size: 14px; color: #E0B84C; white-space: nowrap; }
+  .timer-badge.low { background: #4A2230; color: #F08A9B; }
+  .q-number { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: #B98B2A; margin-bottom: 8px; }
+  .q-text { font-family: 'Noto Serif Bengali', serif; font-size: 19px; line-height: 1.5; font-weight: 600; color: #1B2436; }
+  .options { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+  .opt-btn {
+    display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+    padding: 13px 14px; border-radius: 10px; border: 1.5px solid #DDD3B8;
+    background: #FFFDF8; font-size: 15px; font-weight: 600; cursor: pointer; color: #1B2436;
+  }
+  .opt-btn.selected { border: 1.5px solid #1B2A4A; background: #1B2A4A; color: #F7F0DA; }
+  .opt-letter { width: 24px; height: 24px; border-radius: 50%; background: rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .opt-btn.selected .opt-letter { background: rgba(255,255,255,0.18); }
+  .nav-row { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; }
+  .nav-btn { display: flex; align-items: center; gap: 4px; padding: 10px 16px; border-radius: 8px; border: 1.5px solid #DDD3B8; background: transparent; color: #1B2436; font-weight: 600; cursor: pointer; }
+  .nav-btn:disabled { opacity: 0.4; cursor: default; }
+  .nav-btn-primary { display: flex; align-items: center; gap: 4px; padding: 10px 20px; border-radius: 8px; border: none; background: #1B2A4A; color: #F7F0DA; font-weight: 700; cursor: pointer; margin-left: auto; }
+  .submit-btn { padding: 10px 22px; border-radius: 8px; border: none; background: #1F5C3F; color: #EAF6EE; font-weight: 700; cursor: pointer; margin-left: auto; }
+  .answered-note { font-size: 12px; color: #7A8CA8; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .finish-anyway { font-size: 12px; color: #E0B84C; background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0; }
+  .stamp-wrap { display: flex; justify-content: center; margin-bottom: 4px; }
+  .stamp {
+    width: 96px; height: 96px; border-radius: 50%; border: 3px solid #B98B2A;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #B98B2A; animation: stampIn 0.5s ease both;
+  }
+  .breakdown-row { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .breakdown-chip { display: flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 600; background: #F2EDDD; padding: 6px 12px; border-radius: 20px; }
+  .breakdown-num { font-weight: 800; font-size: 14px; }
+  .review-item { border-bottom: 1px solid #E4DCC6; padding: 16px 0; }
+  .review-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .review-badge { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; margin-top: 2px; font-size: 12px; font-weight: 700; }
+  .review-q { font-weight: 700; font-size: 14.5px; line-height: 1.5; }
+  .review-options { display: flex; flex-direction: column; gap: 5px; margin-left: 32px; margin-bottom: 8px; }
+  .review-opt { font-size: 13.5px; padding: 5px 10px; border-radius: 6px; color: #5B6577; }
+  .review-opt.correct { background: #E4F3E8; color: #1F5C3F; font-weight: 700; }
+  .review-opt.wrong { background: #F7E4E8; color: #6B2130; font-weight: 700; }
+  .review-exp { font-size: 13px; line-height: 1.6; color: #5B6577; margin-left: 32px; background: #F2EDDD; padding: 8px 12px; border-radius: 8px; }
+  .hidden { display: none !important; }
+  @keyframes stampIn {
+    0% { transform: rotate(-8deg) scale(0.4); opacity: 0; }
+    60% { transform: rotate(-8deg) scale(1.08); opacity: 1; }
+    100% { transform: rotate(-8deg) scale(1); opacity: 1; }
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+  .fade-up { animation: fadeUp 0.35s ease both; }
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+const QUESTIONS = [
+  { word: "DETERRENT", q: "Which of the following is the closest synonym of DETERRENT?", options: ["Incentive", "Impediment", "Catalyst", "Encouragement"], answer: 1, exp: "Deterrent (প্রতিবন্ধক/নিবারক) -এর সবচেয়ে নিখুঁত synonym হলো IMPEDIMENT। Incentive ও Encouragement এর বিপরীত (Antonym)।" },
+  { word: "DIATRIBE", q: "The word DIATRIBE is closest in meaning to—", options: ["Invective", "Encomium", "Eulogy", "Tribute"], answer: 0, exp: "Diatribe (তীব্র আক্রমণাত্মক বক্তৃতা) -এর সরাসরি synonym হলো INVECTIVE। Encomium, Eulogy, Tribute প্রশংসাসূচক (বিপরীত)।" },
+  { word: "DICHOTOMY", q: "Choose the word that best expresses the meaning of DICHOTOMY.", options: ["Unification", "Bifurcation", "Harmony", "Cohesion"], answer: 1, exp: "Dichotomy (দ্বিধাবিভক্তি) -এর সঠিক Noun synonym হলো BIFURCATION। Unification ও Harmony বিপরীত।" },
+  { word: "DIFFIDENCE", q: "DIFFIDENCE can best be replaced by—", options: ["Audacity", "Timidity", "Arrogance", "Assertion"], answer: 1, exp: "Diffidence (লাজুকতা/আত্মবিশ্বাসের অভাব) -এর সঠিক synonym হলো TIMIDITY।" },
+  { word: "DIFFUSE", q: "Which word most nearly means DIFFUSE?", options: ["Concise", "Succinct", "Wordy", "Compact"], answer: 2, exp: "Diffuse (শব্দবহুল/ছড়ানো) -এর সঠিক Adjective synonym হলো WORDY। বাকিগুলো সংক্ষিপ্ত (Antonym)।" },
+  { word: "DIGRESSION", q: "The most appropriate synonym of DIGRESSION is—", options: ["Adherence", "Deviation", "Continuity", "Focus"], answer: 1, exp: "Digression (মূল বিষয় থেকে বিচ্যুতি) -এর নির্ভুল synonym হলো DEVIATION।" },
+  { word: "DISABUSE", q: "Which of the following has nearly the same meaning as DISABUSE?", options: ["Delude", "Mislead", "Undeceive", "Beguile"], answer: 2, exp: "Disabuse (ভুল ধারণা ভেঙে দেওয়া) -এর synonym হলো UNDECEIVE। Delude ও Mislead বিভ্রান্ত করা।" },
+  { word: "DISCERNING", q: "What is the closest synonym of DISCERNING?", options: ["Astute", "Obtuse", "Gullible", "Unobservant"], answer: 0, exp: "Discerning (বিচক্ষণ) -এর কাছাকাছি synonym ASTUTE। Obtuse ও Gullible বিপরীত।" },
+  { word: "DISCORDANT", q: "DISCORDANT is closest in meaning to—", options: ["Inharmonious", "Euphonious", "Melodious", "Compatible"], answer: 0, exp: "Discordant (শ্রুতিকটু) -এর সঠিক synonym INHARMONIOUS। Euphonious ও Melodious শ্রুতিমধুর।" },
+  { word: "DISCREPANCY", q: "Choose the word that best expresses the meaning of DISCREPANCY.", options: ["Inconsistency", "Similarity", "Concurrence", "Congruity"], answer: 0, exp: "Discrepancy (অমিল/গরমিল) -এর synonym হলো INCONSISTENCY। Congruity ও Concurrence মিল থাকা।" },
+  { word: "DISCRETE", q: "DISCRETE can best be replaced by—", options: ["Continuous", "Separate", "Blended", "Integrated"], answer: 1, exp: "Discrete (পৃথক/আলাদা) -এর নিখুঁত synonym SEPARATE। Continuous ও Integrated যুক্ত।" },
+  { word: "DISINGENUOUS", q: "Which word most nearly means DISINGENUOUS?", options: ["Candid", "Duplicitous", "Frank", "Artless"], answer: 1, exp: "Disingenuous (কপট) -এর সঠিক synonym DUPLICITOUS। Candid, Frank, Artless অকপট।" },
+  { word: "DISINTERESTED", q: "The most appropriate synonym of DISINTERESTED is—", options: ["Biased", "Impartial", "Partial", "Prejudiced"], answer: 1, exp: "Disinterested (নির্লিপ্ত/পক্ষপাতহীন) -এর synonym IMPARTIAL। বাকিগুলো পক্ষপাতদুষ্ট।" },
+  { word: "DISPARAGE", q: "Which of the following is the closest synonym of DISPARAGE?", options: ["Extol", "Belittle", "Exalt", "Commend"], answer: 1, exp: "Disparage (হেয় করা) -এর সঠিক Verb synonym BELITTLE। বাকিগুলো প্রশংসা করা।" },
+  { word: "DISPARATE", q: "The word DISPARATE is closest in meaning to—", options: ["Homogeneous", "Heterogeneous", "Identical", "Analogous"], answer: 1, exp: "Disparate (সম্পূর্ণ ভিন্ন) -এর সঠিক synonym HETEROGENEOUS। Homogeneous ও Identical একইজাতীয়।" },
+  { word: "DISSEMBLE", q: "Choose the word that best expresses the meaning of DISSEMBLE.", options: ["Reveal", "Disguise", "Unmask", "Disclose"], answer: 1, exp: "Dissemble (ভান করা/ছদ্মবেশ ধারণ) -এর synonym DISGUISE। Reveal ও Disclose প্রকাশ করা।" },
+  { word: "DISSEMINATE", q: "DISSEMINATE can best be replaced by—", options: ["Suppress", "Promulgate", "Withhold", "Concentrate"], answer: 1, exp: "Disseminate (প্রচার করা) -এর শক্তিশালী synonym PROMULGATE। Suppress ও Withhold চেপে রাখা।" },
+  { word: "DISSOLUTION", q: "Which word most nearly means DISSOLUTION?", options: ["Disintegration", "Consolidation", "Coalition", "Integration"], answer: 0, exp: "Dissolution (বিলুপ্তি) -এর সঠিক synonym DISINTEGRATION। বাকিগুলো একত্রিত হওয়া।" },
+  { word: "DISTEND", q: "The most appropriate synonym of DISTEND is—", options: ["Shrink", "Swell", "Compress", "Deflate"], answer: 1, exp: "Distend (ফুলে যাওয়া) -এর সরাসরি synonym SWELL। বাকিগুলো সংকুচিত হওয়া।" },
+  { word: "DISTILL", q: "Which of the following has nearly the same meaning as DISTILL?", options: ["Dilute", "Refine", "Adulterate", "Contaminate"], answer: 1, exp: "Distill (বিশুদ্ধ করা) -এর synonym REFINE। Dilute ও Adulterate ভেজাল/পাতলা করা।" },
+  { word: "DIVEST", q: "Which of the following is the closest synonym of DIVEST?", options: ["Endow", "Deprive", "Invest", "Bestow"], answer: 1, exp: "Divest (বঞ্চিত করা) -এর সঠিক Verb synonym DEPRIVE। Endow ও Bestow প্রদান করা।" },
+  { word: "DOGMATIC", q: "The word DOGMATIC is closest in meaning to—", options: ["Flexible", "Opinionated", "Open-minded", "Pliant"], answer: 1, exp: "Dogmatic (মতান্ধ) -এর সঠিক synonym OPINIONATED। বাকিগুলো নমনীয়।" },
+  { word: "DORMANT", q: "Choose the word that best expresses the meaning of DORMANT.", options: ["Active", "Latent", "Operative", "Vibrant"], answer: 1, exp: "Dormant (সুপ্ত) -এর নিখুঁত Adjective synonym LATENT। বাকিগুলো সক্রিয়।" },
+  { word: "DUPE", q: "DUPE can best be replaced by—", options: ["Swindler", "Gull", "Conman", "Impostor"], answer: 1, exp: "Dupe (সহজে প্রতারিত ব্যক্তি) -এর সঠিক Noun synonym GULL। বাকিগুলো প্রতারক।" },
+  { word: "EBULLIENT", q: "Which word most nearly means EBULLIENT?", options: ["Depressed", "Exuberant", "Somber", "Lethargic"], answer: 1, exp: "Ebullient (উচ্ছ্বসিত) -এর সঠিক synonym EXUBERANT। বাকিগুলো বিষাদগ্রস্ত।" },
+  { word: "ECLECTIC", q: "The most appropriate synonym of ECLECTIC is—", options: ["Diverse", "Uniform", "Narrow", "Monolithic"], answer: 0, exp: "Eclectic (বহুমুখী) -এর মানানসই synonym DIVERSE। বাকিগুলো একক রূপের।" },
+  { word: "EFFICACY", q: "Which of the following has nearly the same meaning as EFFICACY?", options: ["Ineffectiveness", "Potency", "Incompetence", "Futility"], answer: 1, exp: "Efficacy (কার্যক্ষমতা) -এর Noun synonym POTENCY। বাকিগুলো অকার্যকারিতা।" },
+  { word: "EFFRONTERY", q: "Which of the following is the closest synonym of EFFRONTERY?", options: ["Modesty", "Impudence", "Deference", "Timidity"], answer: 1, exp: "Effrontery (ধৃষ্টতা) -এর সঠিক synonym IMPUDENCE। বাকিগুলো বিনয়/নম্রতা।" },
+  { word: "ELICIT", q: "The word ELICIT is closest in meaning to—", options: ["Suppress", "Evoke", "Stifle", "Repress"], answer: 1, exp: "Elicit (বের করে আনা) -এর সঠিক Verb synonym EVOKE। বাকিগুলো দমন করা।" },
+  { word: "EMBELLISH", q: "Choose the word that best expresses the meaning of EMBELLISH.", options: ["Adorn", "Deface", "Mar", "Blemish"], answer: 0, exp: "Embellish (অলঙ্কৃত করা) -এর সরাসরি synonym ADORN। বাকিগুলো সৌন্দর্য নষ্ট করা।" },
+];
+
+const TOTAL_TIME = 15 * 60;
+const NEGATIVE_MARK = 0.25;
+const STORAGE_KEY = "vocab-quiz-attempts-v1";
+
+let state = {
+  screen: "start",
+  studentName: "",
+  quizQuestions: [],
+  current: 0,
+  answers: [],
+  secondsLeft: TOTAL_TIME,
+  timerId: null,
+  showReview: false,
+};
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildShuffledQuestions() {
+  const shuffledQs = shuffleArray(QUESTIONS);
+  return shuffledQs.map((q) => {
+    const optIdxOrder = shuffleArray(q.options.map((_, i) => i));
+    const options = optIdxOrder.map((i) => q.options[i]);
+    const answer = optIdxOrder.indexOf(q.answer);
+    return { ...q, options, answer };
+  });
+}
+
+function fmtTime(s) {
+  const m = Math.floor(s / 60).toString().padStart(2, "0");
+  const sec = (s % 60).toString().padStart(2, "0");
+  return `${m}:${sec}`;
+}
+
+function computeMarks(answers, questions) {
+  let correct = 0, wrong = 0, skipped = 0;
+  answers.forEach((a, i) => {
+    if (a === null) skipped++;
+    else if (a === questions[i].answer) correct++;
+    else wrong++;
+  });
+  const net = +(correct * 1 - wrong * NEGATIVE_MARK).toFixed(2);
+  return { correct, wrong, skipped, net };
+}
+
+function getHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  } catch (e) { return []; }
+}
+
+function saveHistoryEntry(entry) {
+  const updated = [entry, ...getHistory()].slice(0, 25);
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); } catch (e) {}
+  return updated;
+}
+
+function startExam() {
+  const nameInput = document.getElementById("student-name-input");
+  state.studentName = nameInput ? nameInput.value.trim() : "";
+  state.quizQuestions = buildShuffledQuestions();
+  state.answers = Array(state.quizQuestions.length).fill(null);
+  state.current = 0;
+  state.showReview = false;
+  state.secondsLeft = TOTAL_TIME;
+  state.screen = "quiz";
+  render();
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(state.timerId);
+  state.timerId = setInterval(() => {
+    state.secondsLeft--;
+    if (state.secondsLeft <= 0) {
+      state.secondsLeft = 0;
+      clearInterval(state.timerId);
+      submitExam();
+      return;
+    }
+    updateTimerUI();
+  }, 1000);
+}
+
+function updateTimerUI() {
+  const badge = document.getElementById("timer-badge");
+  if (!badge) return;
+  badge.textContent = fmtTime(state.secondsLeft);
+  badge.classList.toggle("low", state.secondsLeft <= 60);
+}
+
+function selectOption(qIdx, optIdx) {
+  state.answers[qIdx] = optIdx;
+  renderQuiz();
+}
+
+function goTo(delta) {
+  state.current = Math.max(0, Math.min(state.quizQuestions.length - 1, state.current + delta));
+  renderQuiz();
+}
+
+function submitExam() {
+  clearInterval(state.timerId);
+  const { correct, wrong, skipped, net } = computeMarks(state.answers, state.quizQuestions);
+  const entry = {
+    name: state.studentName || "Unnamed",
+    correct, wrong, skipped, net,
+    total: state.quizQuestions.length,
+    date: new Date().toISOString(),
+  };
+  saveHistoryEntry(entry);
+  state.screen = "result";
+  render();
+}
+
+function retake() {
+  state.screen = "start";
+  render();
+}
+
+function toggleReview() {
+  state.showReview = !state.showReview;
+  render();
+}
+
+function render() {
+  const app = document.getElementById("app");
+  if (state.screen === "start") {
+    app.innerHTML = renderStart();
+  } else if (state.screen === "quiz") {
+    app.innerHTML = renderQuizFrame();
+    renderQuiz();
+    updateTimerUI();
+  } else if (state.screen === "result") {
+    app.innerHTML = renderResult();
+  }
+}
+
+function renderStart() {
+  const history = getHistory();
+  let historyHTML = "";
+  if (history.length > 0) {
+    historyHTML = `<div class="history-header">আগের ফলাফল</div>` +
+      history.slice(0, 5).map(h => `
+        <div class="history-row">
+          <span style="font-weight:600">${escapeHtml(h.name)}</span>
+          <span style="color:#B98B2A;font-weight:700">${h.net}/${h.total}</span>
+          <span style="color:#7A8CA8;font-size:12px">${new Date(h.date).toLocaleDateString("bn-BD")}</span>
+        </div>`).join("");
+  }
+  return `
+    <div class="center-wrap">
+      <div class="card fade-up" style="max-width:480px">
+        <div class="eyebrow">📖 VOCABULARY · SYNONYM DRILL</div>
+        <h1 class="title">শব্দভাণ্ডার MCQ পরীক্ষা</h1>
+        <p class="subtitle">মোট ${QUESTIONS.length}টি প্রশ্ন · ${TOTAL_TIME/60} মিনিট সময়। প্রতিটি প্রশ্নে ১টি সঠিক Synonym বেছে নিন। সঠিক +1, ভুল −0.25, স্কিপ করলে 0।</p>
+        <label class="field-label">শিক্ষার্থীর নাম</label>
+        <input type="text" id="student-name-input" placeholder="নাম লিখুন" />
+        <button class="btn-primary" onclick="startExam()">পরীক্ষা শুরু করুন →</button>
+        ${historyHTML}
+      </div>
+    </div>`;
+}
+
+function renderQuizFrame() {
+  return `
+    <div class="quiz-wrap">
+      <div class="top-bar">
+        <div class="progress-wrap">
+          <div class="progress-label" id="progress-label"></div>
+          <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        </div>
+        <div class="timer-badge" id="timer-badge">${fmtTime(state.secondsLeft)}</div>
+      </div>
+      <div id="quiz-card"></div>
+      <div class="answered-note" id="answered-note"></div>
+    </div>`;
+  }
+
+function renderQuiz() {
+  // full frame not yet in DOM on first call
+  if (!document.getElementById("quiz-card")) {
+    document.getElementById("app").innerHTML = renderQuizFrame();
+  }
+  const q = state.quizQuestions[state.current];
+  const total = state.quizQuestions.length;
+  document.getElementById("progress-label").textContent = `প্রশ্ন ${state.current + 1} / ${total}`;
+  document.getElementById("progress-fill").style.width = `${((state.current + 1) / total) * 100}%`;
+
+  const optionsHTML = q.options.map((opt, idx) => {
+    const selected = state.answers[state.current] === idx;
+    return `<button class="opt-btn ${selected ? "selected" : ""}" onclick="selectOption(${state.current}, ${idx})">
+      <span class="opt-letter">${String.fromCharCode(65 + idx)}</span><span>${escapeHtml(opt)}</span>
+    </button>`;
+  }).join("");
+
+  const isLast = state.current === total - 1;
+  const navRight = isLast
+    ? `<button class="submit-btn" onclick="submitExam()">জমা দিন</button>`
+    : `<button class="nav-btn-primary" onclick="goTo(1)">পরের →</button>`;
+
+  document.getElementById("quiz-card").innerHTML = `
+    <div class="card fade-up" style="max-width:560px">
+      <div class="q-number">প্রশ্ন ${state.current + 1}</div>
+      <div class="q-text">${escapeHtml(q.q)}</div>
+      <div class="options">${optionsHTML}</div>
+      <div class="nav-row">
+        <button class="nav-btn" ${state.current === 0 ? "disabled" : ""} onclick="goTo(-1)">← আগের</button>
+        ${navRight}
+      </div>
+    </div>`;
+
+  const answeredCount = state.answers.filter(a => a !== null).length;
+  document.getElementById("answered-note").innerHTML = `
+    উত্তর দেওয়া হয়েছে: ${answeredCount}/${total}
+    ${answeredCount < total ? `<button class="finish-anyway" onclick="submitExam()">এখনই জমা দিন</button>` : ""}
+  `;
+}
+
+function renderResult() {
+  const { correct, wrong, skipped, net } = computeMarks(state.answers, state.quizQuestions);
+  const total = state.quizQuestions.length;
+  const percent = Math.round((net / total) * 100);
+  const gradeLabel = percent >= 85 ? "চমৎকার" : percent >= 65 ? "ভালো" : percent >= 40 ? "মোটামুটি" : "আরও চর্চা দরকার";
+
+  let reviewHTML = "";
+  if (state.showReview) {
+    reviewHTML = `<div class="card fade-up" style="max-width:560px;margin-top:16px">` +
+      state.quizQuestions.map((q, i) => {
+        const userAns = state.answers[i];
+        const isCorrect = userAns === q.answer;
+        const optsHTML = q.options.map((opt, idx) => {
+          let cls = "";
+          if (idx === q.answer) cls = "correct";
+          else if (idx === userAns) cls = "wrong";
+          return `<div class="review-opt ${cls}">${String.fromCharCode(65+idx)}) ${escapeHtml(opt)}</div>`;
+        }).join("");
+        return `
+          <div class="review-item">
+            <div class="review-head">
+              <span class="review-badge" style="background:${isCorrect ? "#1F5C3F" : "#6B2130"}">${isCorrect ? "✓" : "✕"}</span>
+              <span class="review-q">${i+1}. ${escapeHtml(q.q)}</span>
+            </div>
+            <div class="review-options">${optsHTML}</div>
+            <div class="review-exp">${escapeHtml(q.exp)}</div>
+          </div>`;
+      }).join("") + `</div>`;
+  }
+
+  return `
+    <div class="center-wrap">
+      <div class="card fade-up" style="max-width:560px">
+        <div class="stamp-wrap"><div class="stamp">
+          🏅<div style="font-size:24px;font-weight:700;line-height:1">${net}/${total}</div>
+          <div style="font-size:11px;letter-spacing:1px;margin-top:2px">${percent}%</div>
+        </div></div>
+        <h2 class="title" style="text-align:center;margin-top:4px">${gradeLabel}!</h2>
+        <p class="subtitle" style="text-align:center">Net Marks: ${net} (সঠিক ${correct} × 1 − ভুল ${wrong} × 0.25)</p>
+        <div class="breakdown-row">
+          <div class="breakdown-chip" style="color:#1F5C3F"><span class="breakdown-num">${correct}</span> সঠিক</div>
+          <div class="breakdown-chip" style="color:#6B2130"><span class="breakdown-num">${wrong}</span> ভুল</div>
+          <div class="breakdown-chip" style="color:#5B6577"><span class="breakdown-num">${skipped}</span> Attempt করেননি</div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <button class="btn-primary" style="flex:1" onclick="toggleReview()">${state.showReview ? "রিভিউ বন্ধ করুন" : "উত্তর রিভিউ করুন"}</button>
+          <button class="btn-secondary" style="flex:1" onclick="retake()">↺ আবার দিন</button>
+        </div>
+      </div>
+      ${reviewHTML}
+    </div>`;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+render();
+</script>
+</body>
+</html>
